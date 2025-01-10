@@ -19,7 +19,7 @@ public class Sender {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Column(nullable = false)
-    private String email;
+    private String username;
     @Column(nullable = false)
     private String password;
 

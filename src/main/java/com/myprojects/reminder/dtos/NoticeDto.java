@@ -1,4 +1,9 @@
 package com.myprojects.reminder.dtos;
 
-public class NoticeDTO {
+import lombok.Data;
+
+@Data
+public class NoticeDto {
+    private String title;
+    private String content;
 }
