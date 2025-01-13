@@ -14,7 +14,8 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Notice {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "pk_seq_2",sequenceName ="pk_seq_2",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pk_seq_2")
     private Long id;
 
     private String title;

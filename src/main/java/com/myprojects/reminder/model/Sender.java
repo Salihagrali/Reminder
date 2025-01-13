@@ -18,7 +18,8 @@ import java.util.List;
 @Entity
 public class Sender {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "pk_seq_1",sequenceName ="pk_seq_1",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pk_seq_1")
     private Long id;
     @Column(nullable = false)
     private String email;
