@@ -54,14 +54,18 @@ public class EmailService {
     }
 
     public void handleRequest(EmailRequest emailRequest) {
-        SenderDto senderDto = new SenderDto(emailRequest.getEmail(), emailRequest.getPassword());
-        Sender sender = senderDtotoSender(senderDto);
+        Sender sender = senderRepository.findByEmail(emailRequest.getEmail()).orElse(null);
+
+        if(sender == null) {
+            SenderDto senderDto = new SenderDto(emailRequest.getEmail(), emailRequest.getPassword());
+            sender = senderDtotoSender(senderDto);
+            senderRepository.save(sender);
+        }
 
         NoticeDto noticeDto = new NoticeDto(emailRequest.getTitle(), emailRequest.getContent());
         Notice notice = noticeDtoToNotice(noticeDto);
         notice.setAuthor(sender);
 
-        senderRepository.save(sender);
         noticeRepository.save(notice);
 
         sendEmail(sender.getEmail(), notice.getTitle(), notice.getContent());
