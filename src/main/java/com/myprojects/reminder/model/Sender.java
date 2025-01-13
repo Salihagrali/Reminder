@@ -6,14 +6,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
-@Entity
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class Sender {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -24,6 +26,10 @@ public class Sender {
     private String password;
 
     @OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
-    private List<Notice> notices;
+    private List<Notice> notices = new ArrayList<>();
+
+    public void addNotice(Notice notice) {
+        notices.add(notice);
+    }
 }
 

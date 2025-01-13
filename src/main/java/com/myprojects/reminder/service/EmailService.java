@@ -14,13 +14,18 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.myprojects.reminder.mapper.NoticeMapper.noticeDtoToNotice;
+import static com.myprojects.reminder.mapper.NoticeMapper.noticeToNoticeDto;
 import static com.myprojects.reminder.mapper.SenderMapper.senderDtotoSender;
 
 @Service
 public class EmailService {
 
-    @Value("${spring.mail.host}")
+    @Value("${spring.mail.username}")
     private String host;
 
     private final NoticeRepository noticeRepository;
@@ -34,13 +39,18 @@ public class EmailService {
     }
 
     public void sendEmail(String to, String subject, String body) {
-        SimpleMailMessage message = new SimpleMailMessage();
+        try{
+            SimpleMailMessage message = new SimpleMailMessage();
 
-        message.setFrom(host);
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(body);
-        mailSender.send(message);
+            message.setFrom(host);
+            message.setTo(to);
+            message.setSubject(subject);
+            message.setText(body);
+            mailSender.send(message);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to send email", e);
+        }
+
     }
 
     public void handleRequest(EmailRequest emailRequest) {
@@ -51,11 +61,18 @@ public class EmailService {
         Notice notice = noticeDtoToNotice(noticeDto);
         notice.setAuthor(sender);
 
-        noticeRepository.save(notice);
         senderRepository.save(sender);
+        noticeRepository.save(notice);
 
         sendEmail(sender.getEmail(), notice.getTitle(), notice.getContent());
     }
 
-
+    public List<NoticeDto> getAllMessages() {
+        List<Notice> notices= noticeRepository.findAll();
+        List<NoticeDto> noticeDtos = new ArrayList<>();
+        for(Notice notice : notices){
+            noticeDtos.add(noticeToNoticeDto(notice));
+        }
+        return noticeDtos;
+    }
 }
