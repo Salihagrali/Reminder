@@ -27,7 +27,6 @@ public class EmailController {
     @PostMapping("/sendEmail")
     public ResponseEntity<Response> sendEmail(@RequestBody @Valid EmailRequest emailRequest, HttpServletRequest request) {
         emailService.handleRequest(emailRequest);
-        // not completed
         return ResponseEntity.ok(new Response(now().toString(),OK.value(), request.getRequestURI(),OK,"Email sent check it please"));
     }
 

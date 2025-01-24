@@ -7,8 +7,6 @@ import com.myprojects.reminder.model.Notice;
 import com.myprojects.reminder.model.Sender;
 import com.myprojects.reminder.repository.NoticeRepository;
 import com.myprojects.reminder.repository.SenderRepository;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.myprojects.reminder.mapper.NoticeMapper.noticeDtoToNotice;
 import static com.myprojects.reminder.mapper.NoticeMapper.noticeToNoticeDto;
