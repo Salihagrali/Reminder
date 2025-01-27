@@ -30,26 +30,26 @@ public class SecurityConfig {
                         authorizeRequests.anyRequest().authenticated())
                 .build();
     }
-    //I'll implement my own auth token, auth provider
-    @Bean
-    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService) throws Exception {
-//        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-//        authenticationProvider.setUserDetailsService(userDetailsService());
-//        authenticationProvider.setPasswordEncoder(passwordEncoder());
-//
-//        ProviderManager providerManager = new ProviderManager(authenticationProvider);
-//        providerManager.setEraseCredentialsAfterAuthentication(false);
-//
-//        return providerManager;
-        return new ProviderManager();
-    }
+//    //I'll implement my own auth token, auth provider
+//    @Bean
+//    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService) throws Exception {
+////        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+////        authenticationProvider.setUserDetailsService(userDetailsService());
+////        authenticationProvider.setPasswordEncoder(passwordEncoder());
+////
+////        ProviderManager providerManager = new ProviderManager(authenticationProvider);
+////        providerManager.setEraseCredentialsAfterAuthentication(false);
+////
+////        return providerManager;
+//        return new ProviderManager();
+//    }
 
-    @Bean
-    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
-        return new InMemoryUserDetailsManager(
-                User.withUsername("salih").password("1234").roles("USER").build(),
-                User.withUsername("hanna").password("1234").roles("USER").build()
-        );
-    }
+//    @Bean
+//    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
+//        return new InMemoryUserDetailsManager(
+//                User.withUsername("salih").password("1234").roles("USER").build(),
+//                User.withUsername("hanna").password("1234").roles("USER").build()
+//        );
+//    }
 
 }

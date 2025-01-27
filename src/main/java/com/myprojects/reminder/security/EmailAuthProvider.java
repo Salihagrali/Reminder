@@ -1,9 +1,9 @@
 package com.myprojects.reminder.security;
 
-import com.myprojects.reminder.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -21,9 +21,9 @@ public class EmailAuthProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        var userDetails = userDetailsService.loadUserByUsername(authentication.getPrincipal().toString());
-        var password = authentication.getCredentials().toString();
-
+        UserDetails userDetails = userDetailsService.loadUserByUsername(authentication.getPrincipal().toString());
+        String password = authentication.getCredentials().toString();
+        //Not FINISHED
         return null;
     }
 

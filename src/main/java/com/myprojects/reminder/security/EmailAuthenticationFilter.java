@@ -13,6 +13,10 @@ import java.io.IOException;
 
 @Slf4j
 public class EmailAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+    protected EmailAuthenticationFilter(String defaultFilterProcessesUrl) {
+        super(defaultFilterProcessesUrl);
+    }
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         return null;
