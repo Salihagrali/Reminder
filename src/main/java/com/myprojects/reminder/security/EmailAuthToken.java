@@ -2,6 +2,7 @@ package com.myprojects.reminder.security;
 
 
 import com.myprojects.reminder.model.UserEntity;
+import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -50,11 +51,12 @@ public class EmailAuthToken extends AbstractAuthenticationToken {
 
     @Override
     public Object getCredentials() {
-        return null;
+        return password;
     }
 
     @Override
     public Object getPrincipal() {
-        return this.user;
+        return email;
     }
+
 }

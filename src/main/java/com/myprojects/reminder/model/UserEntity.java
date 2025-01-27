@@ -3,14 +3,16 @@ package com.myprojects.reminder.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.Data;
 
+@Data
 @Entity
 public class UserEntity {
     @Id
     @GeneratedValue
-    public Long id;
+    private Long id;
 
-    public String email;
-    public String password;
+    private String email;
+    private String password;
     // handle role later
 }
