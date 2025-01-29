@@ -34,4 +34,6 @@ public class EmailController {
     public List<NoticeDto> messages() {
         return emailService.getAllMessages();
     }
+
+
 }
