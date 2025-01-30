@@ -39,7 +39,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests.anyRequest().authenticated())
+                        authorizeRequests
+                                .requestMatchers("/v1/register").permitAll()
+                                .anyRequest().authenticated())
                 .addFilterBefore(emailAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

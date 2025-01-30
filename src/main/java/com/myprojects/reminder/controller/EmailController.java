@@ -2,8 +2,10 @@ package com.myprojects.reminder.controller;
 
 import com.myprojects.reminder.domain.Response;
 import com.myprojects.reminder.dtorequest.EmailRequest;
+import com.myprojects.reminder.dtorequest.UserRequest;
 import com.myprojects.reminder.dtos.NoticeDto;
 import com.myprojects.reminder.service.EmailService;
+import com.myprojects.reminder.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +21,11 @@ import static org.springframework.http.HttpStatus.OK;
 public class EmailController {
 
     private final EmailService emailService;
+    private final UserService userService;
 
-    public EmailController(EmailService emailService) {
+    public EmailController(EmailService emailService, UserService userService) {
         this.emailService = emailService;
+        this.userService = userService;
     }
 
     @PostMapping("/sendEmail")
@@ -35,5 +39,10 @@ public class EmailController {
         return emailService.getAllMessages();
     }
 
+    @PostMapping("register")
+    public ResponseEntity<Response> register(@RequestBody @Valid UserRequest userRequest, HttpServletRequest request) {
+        userService.createUser(userRequest.getEmail(), userRequest.getPassword());
+        return ResponseEntity.ok(new Response(now().toString(),OK.value(), request.getRequestURI(),OK,"Account created. Check your email"));
+    }
 
 }
