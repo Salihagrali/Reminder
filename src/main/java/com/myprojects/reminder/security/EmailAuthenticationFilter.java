@@ -16,7 +16,7 @@ public class EmailAuthenticationFilter extends AbstractAuthenticationProcessingF
 
     protected EmailAuthenticationFilter() {
         //Look at here one more time. Try to understand it !!!!
-        super(new AntPathRequestMatcher("login","POST"));
+        super(new AntPathRequestMatcher("/v1/login","POST"));
     }
 
     @Override

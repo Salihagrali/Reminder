@@ -39,10 +39,4 @@ public class EmailController {
         return emailService.getAllMessages();
     }
 
-    @PostMapping("register")
-    public ResponseEntity<Response> register(@RequestBody @Valid UserRequest userRequest, HttpServletRequest request) {
-        userService.createUser(userRequest.getEmail(), userRequest.getPassword());
-        return ResponseEntity.ok(new Response(now().toString(),OK.value(), request.getRequestURI(),OK,"Account created. Check your email"));
-    }
-
 }

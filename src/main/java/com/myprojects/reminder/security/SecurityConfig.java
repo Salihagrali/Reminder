@@ -40,7 +40,7 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/v1/register").permitAll()
+                                .requestMatchers("/v1/register","v1/login").permitAll()
                                 .anyRequest().authenticated())
                 .addFilterBefore(emailAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
