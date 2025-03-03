@@ -28,21 +28,18 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public EmailAuthenticationFilter emailAuthenticationFilter(){
-        EmailAuthenticationFilter emailAuthenticationFilter = new EmailAuthenticationFilter();
-        emailAuthenticationFilter.setAuthenticationManager(authenticationManager());
-        return emailAuthenticationFilter;
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        EmailAuthenticationFilter emailAuthenticationFilter = new EmailAuthenticationFilter();
+        emailAuthenticationFilter.setAuthenticationManager(authenticationManager());
+
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/v1/register","v1/login").permitAll()
                                 .anyRequest().authenticated())
-                .addFilterBefore(emailAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(emailAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

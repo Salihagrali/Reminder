@@ -8,6 +8,7 @@ import com.myprojects.reminder.service.EmailService;
 import com.myprojects.reminder.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import java.util.List;
 import static java.time.LocalTime.now;
 import static org.springframework.http.HttpStatus.OK;
 
+@Slf4j
 @RestController
 @RequestMapping("/v1")
 public class EmailController {
@@ -34,8 +36,9 @@ public class EmailController {
         return ResponseEntity.ok(new Response(now().toString(),OK.value(), request.getRequestURI(),OK,"Email sent check it please"));
     }
 
-    @GetMapping("/messages")
-    public List<NoticeDto> messages() {
+    @PostMapping("/messages")
+    public List<NoticeDto> messages(@RequestParam("email") String email, @RequestParam("password") String password) {
+        log.info(email,password);
         return emailService.getAllMessages();
     }
 

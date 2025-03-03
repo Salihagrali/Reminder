@@ -1,5 +1,6 @@
 package com.myprojects.reminder.security;
 
+import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,7 +17,7 @@ public class EmailAuthenticationFilter extends AbstractAuthenticationProcessingF
 
     protected EmailAuthenticationFilter() {
         //Look at here one more time. Try to understand it !!!!
-        super(new AntPathRequestMatcher("/v1/login","POST"));
+        super(new AntPathRequestMatcher("/v1/messages","POST"));
     }
 
     @Override
@@ -36,6 +37,19 @@ public class EmailAuthenticationFilter extends AbstractAuthenticationProcessingF
 
         EmailAuthToken authRequest = EmailAuthToken.unauthenticated(email, password);
         return this.getAuthenticationManager().authenticate(authRequest);
+    }
+
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                            FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        log.info("Authentication successful for user: {}", authResult.getName());
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        // Return a JSON response instead of redirecting
+        response.getWriter().write("{\"message\": \"Authentication successful\"}");
+        response.getWriter().flush();
     }
 
     private boolean isValidEmail(String email) {
