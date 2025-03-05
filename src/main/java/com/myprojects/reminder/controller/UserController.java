@@ -24,12 +24,13 @@ public class UserController {
     @PostMapping("register")
     public ResponseEntity<Response> register(@RequestBody @Valid UserRequest userRequest, HttpServletRequest request) {
         userService.createUser(userRequest.getEmail(), userRequest.getPassword());
-        return ResponseEntity.ok(new Response(now().toString(),OK.value(), request.getRequestURI(),OK,"Account created."));
+        return ResponseEntity.ok(new Response(now().toString(),OK.value(), request.getRequestURI(),OK,"Account created.",null));
     }
 
     @GetMapping("/login")
     public ResponseEntity<Response> login(@RequestParam("email") String email, @RequestParam("password") String password, HttpServletRequest request) {
-        String result = userService.verify(email,password);
-        return ResponseEntity.ok(new Response(now().toString(),OK.value(), request.getRequestURI(),OK,result));
+        String jwtToken = userService.verify(email,password);
+        //return token here
+        return ResponseEntity.ok(new Response(now().toString(),OK.value(), request.getRequestURI(),OK,"message",null));
     }
 }

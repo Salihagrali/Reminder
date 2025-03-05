@@ -40,6 +40,7 @@ public class UserService {
 
     public String verify(String email, String password) {
         EmailAuthToken authToken = (EmailAuthToken) authenticationManager.authenticate(EmailAuthToken.unauthenticated(email,password));
+        //return token from here
         if(authToken.isAuthenticated()){
             return "YES";
         }else return "NOOOOOOOOOOOOOOOOOOOOOOO";
