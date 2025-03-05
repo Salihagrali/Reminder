@@ -1,6 +1,7 @@
 package com.myprojects.reminder.security;
 
 import com.myprojects.reminder.model.UserEntity;
+import com.myprojects.reminder.security.userDetails.CustomUserDetails;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;

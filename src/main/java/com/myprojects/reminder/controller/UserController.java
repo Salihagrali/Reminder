@@ -12,7 +12,7 @@ import static java.time.LocalTime.now;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("v1")
 public class UserController {
 
     private final UserService userService;
@@ -28,9 +28,9 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public ResponseEntity<Response> login(@RequestParam("email") String email, @RequestParam("password") String password, HttpServletRequest request) {
-        String jwtToken = userService.verify(email,password);
+    public ResponseEntity<Response> login(@RequestBody @Valid UserRequest userRequest, HttpServletRequest request) {
+        String jwtToken = userService.verify(userRequest.getEmail(),userRequest.getPassword());
         //return token here
-        return ResponseEntity.ok(new Response(now().toString(),OK.value(), request.getRequestURI(),OK,"message",null));
+        return ResponseEntity.ok(new Response(now().toString(),OK.value(), request.getRequestURI(),OK,"message",jwtToken));
     }
 }

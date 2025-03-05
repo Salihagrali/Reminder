@@ -1,4 +1,4 @@
-package com.myprojects.reminder.security;
+package com.myprojects.reminder.security.userDetails;
 
 import com.myprojects.reminder.model.UserEntity;
 import org.springframework.security.core.GrantedAuthority;

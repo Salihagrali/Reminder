@@ -53,12 +53,13 @@ public class EmailService {
     public void handleRequest(EmailRequest emailRequest) {
         Sender sender = senderRepository.findByEmail(emailRequest.getEmail()).orElse(null);
 
+        //DO it in SenderService
         if(sender == null) {
             SenderDto senderDto = new SenderDto(emailRequest.getEmail(), emailRequest.getPassword());
             sender = senderDtotoSender(senderDto);
             senderRepository.save(sender);
         }
-
+        //Do it in NoticeService
         NoticeDto noticeDto = new NoticeDto(emailRequest.getTitle(), emailRequest.getContent());
         Notice notice = noticeDtoToNotice(noticeDto);
         notice.setAuthor(sender);

@@ -1,4 +1,4 @@
-package com.myprojects.reminder.security;
+package com.myprojects.reminder.security.userDetails;
 
 import com.myprojects.reminder.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;

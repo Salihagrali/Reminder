@@ -1,5 +1,6 @@
-package com.myprojects.reminder.security;
+package com.myprojects.reminder.security.filter;
 
+import com.myprojects.reminder.security.EmailAuthToken;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,17 +12,18 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.io.IOException;
-
+//Not going to use it because I'll try to implement jwt based filter class. But if you want to use this class instead of jwtFilter one just uncomment it
+//in security config.
 @Slf4j
 public class EmailAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-    protected EmailAuthenticationFilter() {
+    public EmailAuthenticationFilter() {
         //Look at here one more time. Try to understand it !!!!
-        super(new AntPathRequestMatcher("/v1/messages","POST"));
+        super(new AntPathRequestMatcher("/v1/sendEmail","POST"));
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException{
         log.info("Attempting to authenticate user");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
