@@ -27,10 +27,9 @@ public class UserController {
         return ResponseEntity.ok(new Response(now().toString(),OK.value(), request.getRequestURI(),OK,"Account created.",null));
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<Response> login(@RequestBody @Valid UserRequest userRequest, HttpServletRequest request) {
-        String jwtToken = userService.verify(userRequest.getEmail(),userRequest.getPassword());
-        //return token here
-        return ResponseEntity.ok(new Response(now().toString(),OK.value(), request.getRequestURI(),OK,"message",jwtToken));
+        String jwtToken = userService.verify(userRequest);
+        return ResponseEntity.ok(new Response(now().toString(),OK.value(), request.getRequestURI(),OK,"Use the jwt token below",jwtToken));
     }
 }

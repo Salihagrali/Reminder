@@ -1,5 +1,7 @@
 package com.myprojects.reminder.service;
 
+import com.myprojects.reminder.model.UserEntity;
+import com.myprojects.reminder.security.userDetails.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -54,20 +56,29 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(),userDetails);
+    public String generateToken(UserEntity userEntity) {
+        return generateToken(new HashMap<>(),userEntity);
     }
 
     //extraClaims means something like "role", userDetails.getUser().getRoles(). We can add extra information to the token.
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        return buildToken(extraClaims,userDetails,expiration);
+    public String generateToken(Map<String, Object> extraClaims, UserEntity userEntity) {
+        return buildToken(extraClaims,userEntity,expiration);
     }
 
-    private String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
+    private String buildToken(Map<String, Object> extraClaims, UserEntity userEntity, long expiration) {
         return builder.get()
                 .claims(extraClaims)
-                .subject(userDetails.getUsername())
+                .subject(userEntity.getEmail())
                 .expiration(Date.from(Instant.now().plusSeconds(expiration)))
                 .compact();
+    }
+
+    public boolean isTokenValid(String token, CustomUserDetails userDetails) {
+        final String userEmail = extractSubject(token);
+        return (userEmail.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
     }
 }

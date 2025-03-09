@@ -37,8 +37,7 @@ public class EmailController {
     }
 
     @PostMapping("/messages")
-    public List<NoticeDto> messages(@RequestParam("email") String email, @RequestParam("password") String password) {
-        log.info(email,password);
+    public List<NoticeDto> messages() {
         return emailService.getAllMessages();
     }
 
