@@ -2,6 +2,8 @@ package com.myprojects.reminder.service;
 
 import com.myprojects.reminder.constants.Roles;
 import com.myprojects.reminder.dtorequest.UserRequest;
+import com.myprojects.reminder.exception.UserAlreadyExistException;
+import com.myprojects.reminder.exception.UserNotFoundException;
 import com.myprojects.reminder.model.UserEntity;
 import com.myprojects.reminder.repository.UserRepository;
 import com.myprojects.reminder.security.EmailAuthToken;
@@ -33,8 +35,7 @@ public class UserService {
     public void createUser(String email,String password){
         var userEntity = userRepository.findByEmail(email);
         if(userEntity.isPresent()){
-            //TO-DO ! Create exceptions.
-            throw new DisabledException("User already exists");
+            throw new UserAlreadyExistException("User already exists");
         }
         var user = new UserEntity();
         user.setEmail(email);
@@ -45,10 +46,10 @@ public class UserService {
 
     public String verify(UserRequest userRequest) {
         EmailAuthToken authToken = (EmailAuthToken) authenticationManager.authenticate(EmailAuthToken.unauthenticated(userRequest.getEmail(),userRequest.getPassword()));
-        Optional<UserEntity> user = userRepository.findByEmail(userRequest.getEmail());
+        UserEntity user = userRepository.findByEmail(userRequest.getEmail()).orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        if(authToken.isAuthenticated() && user.isPresent()){
-            return jwtService.generateToken(user.get());
+        if(authToken.isAuthenticated()){
+            return jwtService.generateToken(user);
         }else {
             //Handle it later
             throw new BadCredentialsException("Invalid email or password");

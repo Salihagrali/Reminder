@@ -3,6 +3,7 @@ package com.myprojects.reminder.service;
 import com.myprojects.reminder.dtorequest.EmailRequest;
 import com.myprojects.reminder.dtos.NoticeDto;
 import com.myprojects.reminder.dtos.SenderDto;
+import com.myprojects.reminder.exception.EmailNotFoundException;
 import com.myprojects.reminder.model.Notice;
 import com.myprojects.reminder.model.Sender;
 import com.myprojects.reminder.repository.NoticeRepository;
@@ -51,7 +52,7 @@ public class EmailService {
     }
 
     public void handleRequest(EmailRequest emailRequest) {
-        Sender sender = senderRepository.findByEmail(emailRequest.getEmail()).orElse(null);
+        Sender sender = senderRepository.findByEmail(emailRequest.getEmail()).orElseThrow(() -> new EmailNotFoundException("Sender not found"));
 
         //DO it in SenderService
         if(sender == null) {
