@@ -1,0 +1,1 @@
+I just made it public from private. There is still things to do in this backend project but the main things are completed and working. It is such a good feeling to make this project happen. I'll try to create a proffesional README.txt with the necessary explanations and bunch of other stuffs.
