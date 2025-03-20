@@ -24,5 +24,6 @@ public class EmailRequest {
     private String title;
     @NotEmpty(message = "Content cannot be empty or null")
     private String content;
+    private long delay;
 
 }

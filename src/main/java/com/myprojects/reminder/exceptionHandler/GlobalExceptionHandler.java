@@ -5,6 +5,7 @@ import com.myprojects.reminder.exception.EmailNotFoundException;
 import com.myprojects.reminder.exception.UserAlreadyExistException;
 import com.myprojects.reminder.exception.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.quartz.SchedulerException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -39,5 +40,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .body(createErrorResponse(HttpStatus.CONFLICT, e.getMessage(), request));
+    }
+
+    @ExceptionHandler(SchedulerException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<ErrorResponse> schedulerException(SchedulerException e, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(createErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), request));
     }
 }

@@ -8,6 +8,7 @@ import com.myprojects.reminder.model.Notice;
 import com.myprojects.reminder.model.Sender;
 import com.myprojects.reminder.repository.NoticeRepository;
 import com.myprojects.reminder.repository.SenderRepository;
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -29,11 +30,13 @@ public class EmailService {
     private final NoticeRepository noticeRepository;
     private final SenderRepository senderRepository;
     private final JavaMailSender mailSender;
+    private final SchedulerService schedulerService;
 
-    public EmailService(JavaMailSender mailSender, NoticeRepository noticeRepository, SenderRepository senderRepository) {
+    public EmailService(JavaMailSender mailSender, NoticeRepository noticeRepository, SenderRepository senderRepository, SchedulerService schedulerService) {
         this.mailSender = mailSender;
         this.noticeRepository = noticeRepository;
         this.senderRepository = senderRepository;
+        this.schedulerService = schedulerService;
     }
 
     public void sendEmail(String to, String subject, String body) {
@@ -48,10 +51,9 @@ public class EmailService {
         } catch (Exception e) {
             throw new RuntimeException("Failed to send email", e);
         }
-
     }
 
-    public void handleRequest(EmailRequest emailRequest) {
+    public void handleRequest(EmailRequest emailRequest) throws SchedulerException {
         Sender sender = senderRepository.findByEmail(emailRequest.getEmail()).orElseThrow(() -> new EmailNotFoundException("Sender not found"));
 
         //DO it in SenderService
@@ -66,8 +68,8 @@ public class EmailService {
         notice.setAuthor(sender);
 
         noticeRepository.save(notice);
-
-        sendEmail(sender.getEmail(), notice.getTitle(), notice.getContent());
+        schedulerService.scheduleEmail(sender.getEmail(),notice.getTitle(),notice.getContent(), emailRequest.getDelay());
+//        sendEmail(sender.getEmail(), notice.getTitle(), notice.getContent());
     }
 
     public List<NoticeDto> getAllMessages() {

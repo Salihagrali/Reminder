@@ -9,6 +9,7 @@ import com.myprojects.reminder.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.quartz.SchedulerException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,15 +31,16 @@ public class EmailController {
         this.userService = userService;
     }
 
-    @PostMapping("/sendEmail")
-    public ResponseEntity<Response> sendEmail(@RequestBody @Valid EmailRequest emailRequest, HttpServletRequest request) {
+    @PostMapping("/scheduleEmail")
+    public ResponseEntity<Response> scheduleEmail(@RequestBody @Valid EmailRequest emailRequest, HttpServletRequest request) throws SchedulerException {
         emailService.handleRequest(emailRequest);
-        return ResponseEntity.ok(new Response(now().toString(),OK.value(), request.getRequestURI(),OK,"Email sent.",null));
+        return ResponseEntity.ok(new Response(now().toString(),OK.value(), request.getRequestURI(),OK,"Email will be sent.",null));
     }
 
     @GetMapping("/messages")
     public List<NoticeDto> messages() {
         return emailService.getAllMessages();
     }
+
 
 }
