@@ -32,7 +32,7 @@ public class UserService {
         this.jwtService = jwtService;
     }
 
-    public void createUser(String email,String password){
+    public UserEntity createUser(String email,String password){
         var userEntity = userRepository.findByEmail(email);
         if(userEntity.isPresent()){
             throw new UserAlreadyExistException("User already exists");
@@ -42,6 +42,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(password));
         user.setRoles(List.of(Roles.USER));
         userRepository.save(user);
+        return user;
     }
 
     public String verify(UserRequest userRequest) {

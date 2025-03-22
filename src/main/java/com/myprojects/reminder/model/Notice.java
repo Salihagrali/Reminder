@@ -23,5 +23,5 @@ public class Notice {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",nullable = false)
-    private Sender author;
+    private UserEntity author;
 }
