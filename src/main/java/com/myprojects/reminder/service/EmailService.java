@@ -31,12 +31,18 @@ public class EmailService {
     private final SenderRepository senderRepository;
     private final JavaMailSender mailSender;
     private final SchedulerService schedulerService;
+    private final NoticeService noticeService;
+    private final SenderService senderService;
 
-    public EmailService(JavaMailSender mailSender, NoticeRepository noticeRepository, SenderRepository senderRepository, SchedulerService schedulerService) {
+    public EmailService(JavaMailSender mailSender, NoticeRepository noticeRepository,
+                        SenderRepository senderRepository, SchedulerService schedulerService,
+                        NoticeService noticeService, SenderService senderService) {
         this.mailSender = mailSender;
         this.noticeRepository = noticeRepository;
         this.senderRepository = senderRepository;
         this.schedulerService = schedulerService;
+        this.noticeService = noticeService;
+        this.senderService = senderService;
     }
 
     public void sendEmail(String to, String subject, String body) {
@@ -56,18 +62,12 @@ public class EmailService {
     public void handleRequest(EmailRequest emailRequest) throws SchedulerException {
         Sender sender = senderRepository.findByEmail(emailRequest.getEmail()).orElseThrow(() -> new EmailNotFoundException("Sender not found"));
 
-        //DO it in SenderService
         if(sender == null) {
-            SenderDto senderDto = new SenderDto(emailRequest.getEmail(), emailRequest.getPassword());
-            sender = senderDtotoSender(senderDto);
-            senderRepository.save(sender);
+            sender = senderService.createSender(emailRequest.getEmail(), emailRequest.getPassword());
         }
-        //Do it in NoticeService
-        NoticeDto noticeDto = new NoticeDto(emailRequest.getTitle(), emailRequest.getContent());
-        Notice notice = noticeDtoToNotice(noticeDto);
-        notice.setAuthor(sender);
 
-        noticeRepository.save(notice);
+        Notice notice = noticeService.createNotice(emailRequest.getTitle(),emailRequest.getContent(),sender);
+
         schedulerService.scheduleEmail(sender.getEmail(),notice.getTitle(),notice.getContent(), emailRequest.getDelay());
 //        sendEmail(sender.getEmail(), notice.getTitle(), notice.getContent());
     }
