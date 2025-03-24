@@ -1,1 +1,1 @@
-I just made my backend project public after having it private. There are still things to improve, but the main functionalities are completed and working. It feels great to see this project come to life! I'll work on creating a professional README.txt with the necessary explanations and additional details
+ I'll work on creating a professional README.txt with the necessary explanations and additional details
