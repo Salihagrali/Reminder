@@ -10,12 +10,10 @@ import com.myprojects.reminder.security.EmailAuthToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -52,7 +50,6 @@ public class UserService {
         if(authToken.isAuthenticated()){
             return jwtService.generateToken(user);
         }else {
-            //Handle it later
             throw new BadCredentialsException("Invalid email or password");
         }
     }

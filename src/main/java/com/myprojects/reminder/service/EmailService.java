@@ -56,19 +56,11 @@ public class EmailService {
         }
     }
 
-    public void handleRequest(EmailRequest emailRequest) throws SchedulerException {
-        UserEntity user = userRepository.findByEmail(emailRequest.getEmail()).orElseThrow(() -> new UserNotFoundException("User not found"));
-        //Sender sender = senderRepository.findByEmail(emailRequest.getEmail()).orElseThrow();
-
-        if(user == null) {
-            user = userService.createUser(emailRequest.getEmail(), emailRequest.getPassword());
-          //  sender = senderService.createSender(emailRequest.getEmail(), emailRequest.getPassword());
-        }
+    public void handleRequest(EmailRequest emailRequest,String userEmail) throws SchedulerException {
+        UserEntity user = userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException("User not found"));
 
         Notice notice = noticeService.createNotice(emailRequest.getTitle(),emailRequest.getContent(),user);
-
         schedulerService.scheduleEmail(user.getEmail(),notice.getTitle(),notice.getContent(), emailRequest.getDelay());
-//        sendEmail(sender.getEmail(), notice.getTitle(), notice.getContent());
     }
 
     public List<NoticeDto> getAllMessages() {

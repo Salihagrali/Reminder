@@ -5,7 +5,6 @@ import com.myprojects.reminder.model.Notice;
 import com.myprojects.reminder.model.UserEntity;
 import com.myprojects.reminder.repository.NoticeRepository;
 import jakarta.validation.constraints.NotEmpty;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import static com.myprojects.reminder.mapper.NoticeMapper.noticeDtoToNotice;

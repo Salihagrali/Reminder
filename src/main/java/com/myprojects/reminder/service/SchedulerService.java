@@ -42,6 +42,7 @@ public class SchedulerService {
         return TriggerBuilder.newTrigger()
                 .forJob(jobDetail)
                 .withIdentity(jobDetail.getKey().getName(),"email-triggers")
+                // 60000 milliseconds in a minute
                 .startAt(new Date(System.currentTimeMillis() + delay * 60000))
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule().withMisfireHandlingInstructionFireNow())
                 .build();

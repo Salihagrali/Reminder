@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.quartz.SchedulerException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -47,5 +48,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> schedulerException(SchedulerException e, HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(createErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), request));
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ErrorResponse> badCredentialException(BadCredentialsException e, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(createErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage(), request));
     }
 }

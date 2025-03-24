@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserRequest {
-
     @NotEmpty(message = "Username cannot be empty or null")
     @Email(message = "You must enter email")
     private String email;
