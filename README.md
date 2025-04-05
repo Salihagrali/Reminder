@@ -2,9 +2,9 @@
 -A backend project to study and solidify my skills on Spring Security, JWT, Quartz and other areas of backend development.
 
 ## 📌 What is Reminder?
--Reminder is a project to set up scheduled mails to remind the user later. It uses Quartz to schedule mails and Java Mail to actually send mail to the specified email.
-Project has custom Spring Security architecture and JWT implementation. To reach out to the secured endpoints, first one should register as a user then should login to 
-get the JWT token. This token must be used to reach out to the secured endpoints.
+-Reminder is a project to set up scheduled mails to remind the user later. It uses Quartz Scheduler to schedule mails and JavaMailSender to actually send mails to the specified email.
+This project has custom Spring Security architecture and JWT implementation. To access the secured endpoints, first one should register as a user then should login to 
+get the JWT token. This token is required to access the secured endpoints.
 
 ## 🧠 What I Learned
 -Most valuable lesson I got from this project is actually planning what to do beforehand. Initially I started off without security. Due to my lack of experience in the security, I couldn't connect the dots
