@@ -6,7 +6,7 @@
 Project has custom Spring Security architecture and JWT implementation. To reach out to the secured endpoints, first one should register as a user then should login to 
 get the JWT token. This token must be used to reach out to the secured endpoints.
 
-What did I learned by doing this project ?
+## 🧠 What I Learned
 -Most valuable lesson I got from this project is actually planning what to do beforehand. Initially I started off without security. Due to my lack of experience in the security, I couldn't connect the dots
 to implement a whole secured system. I messed up entities such as UserEntity. Also created unnecessary entities. When I understood what my mistakes are, I was already deep in overall
 implementation. Nevertheless, with reading docs and watching tutorials I overcome that problem.
